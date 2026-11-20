@@ -1,0 +1,31 @@
+# Ignore ALL video and audio files
+*.mp4
+*.m4v
+*.mov
+*.webm
+*.avi
+*.mkv
+*.wav
+*.mp3
+
+# Ignore video-specific downloaded folder
+FOLTYN PLAYING GTA 6!!/
+input/
+output/
+
+# Binaries & Executables
+bin/
+*.exe
+*.dll
+
+# Environment & Secrets
+.env
+.env.*
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Node & Package caches
+node_modules/
+tools/openshorts/

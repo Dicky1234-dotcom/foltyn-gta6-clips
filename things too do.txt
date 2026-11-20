@@ -1,0 +1,79 @@
+To turn **Google Antigravity** (`agy`) into a high-output viral clipping engine, you need four layers working together: local media binaries, open-source clipping/MCP repos, native Antigravity editing plugins, and custom `SKILL.md` playbooks that teach the agent retention editing (not just raw cutting).
+
+---
+
+## 1. Core Local Tools (Install These First)
+
+Antigravity cannot edit video natively—it orchestrates local CLI tools and MCP servers. Install these on your machine so every repo and skill below works out of the box:
+
+* **FFmpeg & FFprobe:** The backbone for cutting, 9:16 reframing, loudness normalization, and burning captions.
+* **`yt-dlp`:** Pulls full-resolution source footage from YouTube, Twitch, Kick, and podcasts.
+* **Local Speech-to-Text (`faster-whisper`, `whisper.cpp`, or `parakeet-mlx` on Apple Silicon):** Generates word-level timestamps locally with zero API fees so captions sync frame-accurately.
+* **Node.js (18+) & Python (3.10+):** Required to run MCP servers, Remotion motion graphics, and Python clipping pipelines.
+
+---
+
+## 2. Best GitHub Repos & MCP Servers for Clipping
+
+These repositories give Antigravity direct tools to find viral moments, crop vertical frames, animate captions, and auto-post.
+
+| Repo / Tool | Best For | Why It Works Well with Antigravity |
+| --- | --- | --- |
+| **`mutonby/openshorts`** | All-in-one viral clipping (podcasts, interviews, YouTube) | Open-source (MIT) OpusClip alternative with a **built-in MCP server (`mcp_server.py`) and `skills/openshorts**`. Handles AI viral moment detection (supports Gemini's free tier), active-speaker face tracking, auto split-screen stacking for 2-person shots (placing captions on the seam so faces stay uncovered), and dubbing. |
+| **`kajisho5/ffmpeg-skill`** | Frame-accurate local editing & silence removal | Built specifically for coding agents with 42 typed tools and a contract-derived MCP server. Measures real footage first (`probe.py`), strips silences/fillers using local Whisper or Parakeet, normalizes audio, and visually inspects contact sheets to verify renders. |
+| **`kajisho5/remotion-ffmpeg-skill`** | High-retention animated captions & punch-in zooms | Pairs with `ffmpeg-skill` to render crisp Remotion karaoke captions, emphasis graphics on loud moments, and punch-in jump cuts without the agent guessing timestamps. |
+| **`SupoClip`** (Docker) | Self-hosted YouTube, Twitch & Kick VOD clipping | One-command Docker Compose setup. Scores candidate clips on hook, engagement, and shareability, generates word-synced 9:16 exports, and lets you bring your own model (Gemini, OpenAI, Anthropic, or Ollama). |
+| **`Upload-Post/upload-post-plugin`** | Auto-posting & scheduling | MCP server and agent plugin that pushes finished clips straight to TikTok, YouTube Shorts, and Instagram Reels on a schedule. |
+| **`samuelgursky/davinci-resolve-mcp`** | Handing rough cuts off to a pro NLE | Drives DaVinci Resolve via Blackmagic's scripting API (`npx davinci-resolve-mcp setup`) to assemble timelines, generate subtitles, and queue exports. (Use **`hetpatel-11/Adobe_Premiere_Pro_MCP`** if you edit in Premiere Pro.) |
+
+**Niche bonus repos if you clip gaming or livestreams:**
+
+* **`shifqy/vodmine-downloads`:** Watches live Twitch streams and auto-clips the exact moment chat spikes.
+* **`Bryson-he/laugh-clipper`:** Uses audio classification to automatically isolate laughter, screams, and hype reactions from mic/Discord/game audio.
+* **`VBS2004/jevcut`:** Uses an AI judge specifically tuned to nail clean clip start and end boundaries.
+
+---
+
+## 3. Native Antigravity Video Plugins & Pre-Built Skills
+
+If you want a ready-made editing UI wired straight into Antigravity without managing Docker containers:
+
+* **ChatCut for Antigravity:** Open Antigravity chat and send `Read ChatCut.io/antigravity to install ChatCut`. It installs ChatCut Desktop, registers the `chatcut_desktop` MCP server, and loads workflow skills for stripping dead air/retakes, syncing word-level captions, layering B-roll/motion graphics, and exporting editable MP4 or XML timelines.
+* **Tella Antigravity Plugin:** Install with `agy plugin install [https://github.com/tellahq/skills](https://github.com/tellahq/skills)`. Adds the Tella MCP server plus `/tella-remove-mistakes` and `/tella-short` skills for transcript-based cutting, auto-zooms, and layouts.
+* **Faceless Shorts Skill (`antigravityskills.com`):** Pre-packaged with `.agents/skills/` and a root `SKILL.md` for Antigravity. Combines Remotion compositions, synced captions, and voiceovers if you want to mix original/commentary Shorts alongside repurposed clips.
+
+---
+
+## 4. Custom Skills (`.agents/skills/`) That Actually Make Clips Go Viral
+
+Tools only handle execution—**retention structure** is what pushes clips past 10k views. Antigravity loads project-level skills from `.agents/skills/<skill-name>/SKILL.md`. Create these three skills so Gravity stops making generic cuts and edits like a top clipper:
+
+1. **`viral-hook-hunter/SKILL.md` (Selection Rules)**
+* Instruct Antigravity to scan full transcripts specifically for **pattern interrupts**: bold claims, emotional spikes, rapid back-and-forth conflict, or curiosity gaps—never generic "good advice" summaries.
+* Enforce a strict **0-to-2 second cold open**: cut directly onto the strongest sentence (even if you splice the payoff line to the very front as a 2-second teaser before the setup).
+* Target a **25–55 second arc** with either a clear punchline/payoff or a **seamless loop** (where the final sentence grammatically connects back into the opening word).
+
+
+2. **`retention-pacing-editor/SKILL.md` (Editing Rules)**
+* Cut all silences longer than **0.35 seconds** and strip filler words while keeping natural breath on punchlines.
+* Trigger a **visual reset every 3–5 seconds**: alternate between tight speaker crop, split-screen reaction, 108% punch-in zoom on emphasis words, or a relevant B-roll overlay.
+* Lock captions to **2–4 words per frame** in high-contrast typography inside the **TikTok/Shorts safe zone** (centered in the middle-lower third, clear of the bottom description bar and right-hand engagement icons).
+* Normalize speech loudness to **-14 LUFS** with a subtle background music bed ducked 20–24 dB under dialogue.
+
+
+3. **`clip-qa-packager/SKILL.md` (Pre-Publish Audit)**
+* Force Antigravity to inspect rendered frames and cross-check every caption against the audio for homophones, slang, and proper names before marking a clip ready.
+* Generate a 3–5 word on-screen hook title (displayed at the top of the frame for the first 3 seconds) plus platform-specific descriptions.
+
+
+
+---
+
+## Recommended Starting Stack (Zero Cost to Start)
+
+If you want to start clipping today without paying for SaaS subscriptions:
+
+1. Install **`yt-dlp`**, **`FFmpeg`**, **`faster-whisper`**, and **Node.js/Python**.
+2. Install **`mutonby/openshorts`** (via Docker + Gemini free tier) for automated viral moment discovery and 9:16 face-tracked reframing.
+3. Install **`kajisho5/ffmpeg-skill`** and **`kajisho5/remotion-ffmpeg-skill`** (`npx ffmpeg-skill` and `npx remotion-ffmpeg-skill`) for custom retention pacing, silence stripping, and animated captions.
+4. Drop the three custom `SKILL.md` files into your project's `.agents/skills/` folder so Antigravity applies viral editing rules to every batch automatically.
